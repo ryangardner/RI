@@ -58,21 +58,29 @@ public abstract class AbstractCacheResultInterceptor<I> extends AbstractKeyedCac
         
         final CacheResult cacheResultAnnotation = methodDetails.getCacheAnnotation();
         
+        // initialize this to a null place holder that will be placed into the cache
+        // if there is a problem
         Object result;
         if (!cacheResultAnnotation.skipGet()) {
             //Look in cache for existing data
             result = cache.get(cacheKey);
             if (result != null) {
-                //Cache hit, return result
-                return result;
+                // if the cache hit indicates the method returned null, return an actual null
+                if (result == NullMethodResultPlaceholder.NULL) {
+                    return null;
+                } else {
+                    // otherwise return the actual cache hit
+                    return result;
+                }
             }
         }
-        
         //Call the annotated method
         result = this.proceed(invocation);
-        
-        //Cache non-null result
-        if (result != null) {
+
+        if (result == null) {
+            cache.put(cacheKey, NullMethodResultPlaceholder.NULL);
+        }
+        else {
             cache.put(cacheKey, result);
         }
         
