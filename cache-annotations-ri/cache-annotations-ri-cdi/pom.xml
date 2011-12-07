@@ -4,9 +4,9 @@
     <parent>
         <groupId>javax.cache.implementation</groupId>
         <artifactId>cache-annotations-ri</artifactId>
-        <version>0.4-SNAPSHOT</version>
+        <version>0.4-cache-null-values-on-exception-SNAPSHOT</version>
     </parent>
-    
+
     <artifactId>cache-annotations-ri-cdi</artifactId>
     <packaging>jar</packaging>
 
@@ -22,14 +22,14 @@
             <artifactId>cache-api</artifactId>
         </dependency>
         <dependency>
+            <groupId>javax.enterprise</groupId>
+            <artifactId>cdi-api</artifactId>
+        </dependency>
+        <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>cache-annotations-ri-common</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>javax.enterprise</groupId>
-            <artifactId>cdi-api</artifactId>
-        </dependency>
     </dependencies>
-    
+
 </project>

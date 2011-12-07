@@ -7,7 +7,11 @@
         <version>0.4-SNAPSHOT</version>
     </parent>
     <artifactId>cache-annotations-ri</artifactId>
+    <version>0.4-cache-null-values-on-exception-SNAPSHOT</version>
     <packaging>pom</packaging>
+    <properties>
+        <cache.api.version>0.4</cache.api.version>
+    </properties>
 
     <name>JSR107 Annotations RI</name>
     
