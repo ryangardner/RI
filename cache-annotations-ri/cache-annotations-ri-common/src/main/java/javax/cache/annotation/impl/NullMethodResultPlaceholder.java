@@ -38,6 +38,9 @@ public final class NullMethodResultPlaceholder implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    // private constructor
+    private NullMethodResultPlaceholder() {}
+
     /**
      * Ensure singleton.
      *
