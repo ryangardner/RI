@@ -57,8 +57,11 @@ public abstract class AbstractCacheResultInterceptor<I> extends AbstractKeyedCac
         final CacheKey cacheKey = cacheKeyGenerator.generateCacheKey(cacheKeyInvocationContext);
         
         final CacheResult cacheResultAnnotation = methodDetails.getCacheAnnotation();
-
+        
+        // initialize this to a null place holder that will be placed into the cache
+        // if there is a problem
         Object result;
+        
         if (!cacheResultAnnotation.skipGet()) {
             //Look in cache for existing data
             result = cache.get(cacheKey);
@@ -71,17 +74,17 @@ public abstract class AbstractCacheResultInterceptor<I> extends AbstractKeyedCac
                     return result;
                 }
             }
-        }
-        //Call the annotated method
-        result = this.proceed(invocation);
-
-        if (result == null) {
+        }        
+        try {        
+            //Call the annotated method
+            result = this.proceed(invocation);                
+        } catch (Exception e) {
             cache.put(cacheKey, NullMethodResultPlaceholder.NULL);
+            throw e;
         }
-        else {
-            cache.put(cacheKey, result);
-        }
-        
+
+        cache.put(cacheKey, result != null ? result : NullMethodResultPlaceholder.NULL);
+
         return result;
     }
 
