@@ -78,7 +78,8 @@ public abstract class AbstractCacheResultInterceptor<I> extends AbstractKeyedCac
         try {        
             //Call the annotated method
             result = this.proceed(invocation);                
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             cache.put(cacheKey, NullMethodResultPlaceholder.NULL);
             throw e;
         }
